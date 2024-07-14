@@ -4,8 +4,10 @@
     padding: 0;
     border: 0;
 }
-.container{
+body{
     background-color: rgb(24, 23, 23);
+}
+.conversor{
     width: 600px;
     margin: 0 auto;
     font-family: "Roboto", sans-serif;
@@ -49,4 +51,8 @@ button{
     background-color: #0DCAF0;
     border: 2px solid #0994af;
     color: white;
+}
+.grafica{
+    margin: 0 auto;
+    width: 60%;
 }

@@ -1,7 +1,9 @@
-const valor_recibido = document.querySelector("#ingresado")
-const valor_resultado = document.querySelector("#resultado")
-let resultado_final = 0
-let data
+const valor_recibido = document.querySelector("#ingresado");
+const valor_resultado = document.querySelector("#resultado");
+let resultado_final = 0;
+let data;
+let myChart;
+
 
 // FUNCION PARA TRAER DATOS DESDE API
 async function valores_monedas() {
@@ -14,23 +16,83 @@ async function valores_monedas() {
     return data
 }
 
+
+//FUNCION ACTIVADORA DE EVENTOS AL HACER CLIC
+async function activadora_al_clic(){
+    calcular_moneda();
+    renderGrafica();
+}
+
 // FUNCION PARA CALCULAR VALOR DE MONEDA
 async function calcular_moneda(){
     const monedas = await valores_monedas();
-    const moneda = document.querySelector("#moneda").value
+    let moneda = document.querySelector("#moneda").value;
     if (moneda === "dolar"){
-        resultado_final = valor_recibido.value / data.dolar.valor
+        resultado_final = valor_recibido.value / data.dolar.valor;
     } else if (moneda === "euro"){
-        resultado_final = valor_recibido.value / data.euro.valor
+        resultado_final = valor_recibido.value / data.euro.valor;
     } else if (moneda === "uf"){
-        resultado_final = valor_recibido.value / data.uf.valor
+        resultado_final = valor_recibido.value / data.uf.valor;
     } else{
-        resultado_final = 0
+        resultado_final = 0;
     }
     
-    valor_resultado.innerHTML = resultado_final.toFixed(2)
+    valor_resultado.innerHTML = resultado_final.toFixed(2);
 }
 
+// FUNCIONES PARA GRÁFICO DOLAR
+async function traer_y_crear_grafico() {
+    let moneda = document.querySelector("#moneda").value;
+    let api_url = " ";
+
+    if (moneda === "dolar"){
+        api_url = "https://mindicador.cl/api/dolar/2024";
+    } else if (moneda === "euro"){
+        api_url = "https://mindicador.cl/api/euro/2024";
+    } else if (moneda === "uf"){
+        api_url = "https://mindicador.cl/api/uf/2024";
+    } 
+    
+    const res = await fetch(api_url);
+    const cambios = await res.json();
+    let info = []
+    for(let i = 0; i < 10; i++){
+        info.unshift(cambios.serie[i]);
+    }
+
+    const labels = info.map((cambio) => {
+        return cambio.fecha.split("T")[0].split('-').reverse().join('-');
+    });
+    const data = info.map((cambio) => {
+        return cambio.valor;
+    });
+    const datasets = [
+        {
+        label: "Cambio",
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 255, 255, 1)",
+        data,
+        },
+    ];
+    return { labels, datasets };
+}
+
+async function renderGrafica() {
+    const data = await traer_y_crear_grafico();
+
+    if (myChart) {
+        myChart.destroy();
+    }
+
+    const config = {
+        type: "line",
+        data,
+    };
+
+    const ctx = document.getElementById("myChart").getContext("2d");
+    ctx.canvas.style.backgroundColor = "white";
+    myChart = new Chart(ctx, config);
+}
 
 
 
