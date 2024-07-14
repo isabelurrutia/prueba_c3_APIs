@@ -1,0 +1,52 @@
+/*RESET*/
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+.container{
+    background-color: rgb(24, 23, 23);
+    width: 600px;
+    margin: 0 auto;
+    font-family: "Roboto", sans-serif;
+    font-size:medium;
+    color: white;
+}
+header{
+    height: 10px;
+}
+h1{
+    text-align: center;
+    margin-left: 25px;
+    width: 550px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid #0DCAF0;
+    border-bottom: 1px solid #0DCAF0;
+}
+main{
+    display: flex;
+    justify-content: center;
+}
+.cajon{
+    text-align: center;
+    background-color: rgb(84, 83, 83);
+    width: 250px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+input, select, button{
+    margin-bottom: 15px;
+    width: 170px;
+    height: 30px ;
+    border-radius: 10px;
+    text-align: center;
+}
+button{
+    background-color: #0DCAF0;
+    border: 2px solid #0994af;
+    color: white;
+}
